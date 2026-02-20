@@ -19,26 +19,9 @@
     <div class="container">
         <div class="row">
             <aside class="col-lg-4">
-                <owl-carousel-o [options]="slider1Settings" #myCarousel>
-                    <ng-container *ngFor="let slide of productImages">
-                        <ng-template carouselSlide [id]="slide?.id">
-                            <figure class="zoom-image" style="background-image: url({{slide}});"
-                                [style.backgroundPosition]="backgroundPos" (mousemove)="ZoomImage($event)">
-                                <img class="rounded" src="{{slide}}" alt="clothes"
-                                    onerror="this.onerror = null;this.src='assets/images/ImageNotFound.png'; imgNotFounded=true">
-                            </figure>
-                        </ng-template>
-                    </ng-container>
-                </owl-carousel-o>
-                <owl-carousel-o id="controll" [options]="slider2Settings" (dragging)="nextSlide($event)"
-                    *ngIf="!imgNotFounded">
-                    <ng-container *ngFor="let slide of productImages">
-                        <ng-template carouselSlide [id]="slide?.id">
-                            <img class="rounded" width="97" src="{{slide}}" alt="clothes"
-                                onerror="this.onerror = null;this.src='assets/images/ImageNotFound.png'">
-                        </ng-template>
-                    </ng-container>
-                </owl-carousel-o>
+            <div *ngFor="let slide of productImages">
+  <img class="rounded mb-2" [src]="slide" width="200">
+</div>
             </aside>
             <main class="col-lg-6">
                 <article class="ps-lg-3">
