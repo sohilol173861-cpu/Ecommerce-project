@@ -1,0 +1,94 @@
+<section class="padding-y">
+  <div class="container">
+    <div class="row">
+      <main class="col-xl-8 col-lg-8">
+        <article class="card">
+          <div class="content-body">
+            <h5 class="card-title mb-4">Select payment method</h5>
+
+            <div class="row g-3 mb-4">
+              <div class="col-md-6">
+                <div class="box box-check payment-option" [class.selected]="selectedMethod === 'card'"
+                  (click)="selectMethod('card')">
+                  <label class="form-check cursor-pointer">
+                    <input class="form-check-input" type="radio" name="payment" [checked]="selectedMethod === 'card'">
+                    <b class="border-oncheck"></b>
+                    <span class="form-check-label">
+                      <i class="fa-solid fa-credit-card me-2"></i> Card payment
+                    </span>
+                  </label>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="box box-check payment-option" [class.selected]="selectedMethod === 'cash'"
+                  (click)="selectMethod('cash')">
+                  <label class="form-check cursor-pointer">
+                    <input class="form-check-input" type="radio" name="payment" [checked]="selectedMethod === 'cash'">
+                    <b class="border-oncheck"></b>
+                    <span class="form-check-label">
+                      <i class="fa-solid fa-money-bill-wave me-2"></i> Cash on delivery
+                    </span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="card-form-wrapper" *ngIf="selectedMethod === 'card'">
+              <h6 class="mb-3">Card details</h6>
+              <form [formGroup]="cardForm">
+                <div class="mb-3">
+                  <label class="form-label">Card number</label>
+                  <input type="text" class="form-control" formControlName="cardNumber"
+                    placeholder="0000 0000 0000 0000" maxlength="19">
+                  <small *ngIf="f.cardNumber.invalid && isSubmitted" class="text-danger">Valid card number required</small>
+                </div>
+                <div class="row">
+                  <div class="col-6 mb-3">
+                    <label class="form-label">Expiry (MM/YY)</label>
+                    <input type="text" class="form-control" formControlName="expiry" placeholder="MM/YY">
+                  </div>
+                  <div class="col-6 mb-3">
+                    <label class="form-label">CVV</label>
+                    <input type="text" class="form-control" formControlName="cvv" placeholder="123">
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Cardholder name</label>
+                  <input type="text" class="form-control" formControlName="holderName" placeholder="Name on card">
+                </div>
+              </form>
+            </div>
+
+            <div class="d-flex justify-content-between mt-4">
+              <button class="btn btn-light" type="button" (click)="back()">Back</button>
+              <button class="btn btn-warning" type="button" (click)="pay()" [disabled]="!selectedMethod || loading">
+                {{ loading ? 'Processing...' : (selectedMethod === 'cash' ? 'Place order' : 'Pay now') }}
+              </button>
+            </div>
+          </div>
+        </article>
+      </main>
+
+      <aside class="col-xl-4 col-lg-4 bg-light">
+        <article class="ms-lg-4 mt-4 mt-lg-0 summary-body" style="max-width: 320px">
+          <h5 class="card-title">Order summary</h5>
+          <dl class="dlist-align">
+            <dt>Total:</dt>
+            <dd class="text-end"><strong>${{ totalPrice }}</strong></dd>
+          </dl>
+          <h6 class="mb-3">Items</h6>
+          <figure class="itemside align-items-center mb-3" *ngFor="let item of cartList">
+            <div class="aside">
+              <b class="badge bg-secondary rounded-pill">{{ item?.quantity }}</b>
+              <img [src]="item?.product?.images?.[0] || item?.product?.image" class="img-sm rounded border" alt="">
+            </div>
+            <figcaption class="info">
+              <a routerLink="/products/{{ item?.product?.id }}" class="title small">{{ item?.product?.title }}</a>
+              <div class="price text-muted">${{ item?.product?.price }}</div>
+            </figcaption>
+          </figure>
+        </article>
+      </aside>
+    </div>
+  </div>
+</section>

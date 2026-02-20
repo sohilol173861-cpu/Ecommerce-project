@@ -1,0 +1,30 @@
+<section class="padding-y" infiniteScroll
+  [infiniteScrollDistance]="scrollDistance"
+  [infiniteScrollUpDistance]="scrollUpDistance"
+  [infiniteScrollThrottle]="throttle"
+  (scrolled)="onScroll()">
+  <div class="container">
+    <header class="section-heading mb-4">
+      <h4 class="section-title">{{ brand?.name || 'Brand' }} — Products</h4>
+      <a routerLink="/products/brands" class="btn btn-outline-warning btn-sm">All brands</a>
+    </header>
+
+    <div class="row" *ngIf="loading && !products.length">
+      <div class="col-12 text-center py-5">
+        <div class="spinner-border text-warning" role="status"></div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-6 col-md-6 col-lg-2" style="padding: 15px 7.5px;" *ngFor="let item of products">
+        <app-product [product]="item"></app-product>
+      </div>
+    </div>
+
+    <div class="row" *ngIf="!loading && !products.length">
+      <div class="col-12 text-center py-5 text-muted">
+        <p>No products for this brand.</p>
+      </div>
+    </div>
+  </div>
+</section>
